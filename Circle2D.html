@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Circle2D.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: monospace}
+pre {color: #000000; background-color: #ffffff; font-family: monospace}
+table {color: #404040; background-color: #e9e8e2; font-family: monospace}
+.ST0 {color: #969696; font-family: monospace; font-weight: bold}
+.comment {color: #969696}
+.string {color: #1e9347}
+.ST1 {color: #1e9347; font-family: monospace; font-weight: bold}
+.literal {color: #336bdd}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">C:\Users\smoul\OneDrive\Documents\NetBeansProjects\Circle2D\src\main\java\com\mycompany\circle2d\Circle2D.java</td></tr></table>
+<pre>
+<span class="comment">/*</span>
+<span class="comment"> * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license</span>
+<span class="comment"> */</span>
+<span class="literal">package</span> com.mycompany.circle2d;
+
+<span class="literal">import</span> java.util.Arrays;
+
+<span class="comment">/**</span>
+<span class="comment"> *</span>
+<span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">smoul</span>
+ <span class="comment">*/</span>
+<span class="literal">public</span> <span class="literal">class</span> Circle2D {
+
+    <span class="literal">private</span> <span class="literal">double</span> x;
+    <span class="literal">private</span> <span class="literal">double</span> y;
+    <span class="literal">private</span> <span class="literal">double</span> radius;
+
+    <span class="literal">public</span> <span class="literal">double</span> getX() {
+        <span class="literal">return</span> x;
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> setX(<span class="literal">double</span> x) {
+        <span class="literal">this</span>.x = x;
+    }
+
+    <span class="literal">public</span> <span class="literal">double</span> getY() {
+        <span class="literal">return</span> y;
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> setY(<span class="literal">double</span> y) {
+        <span class="literal">this</span>.y = y;
+    }
+
+    <span class="literal">public</span> <span class="literal">double</span> getRadius() {
+        <span class="literal">return</span> radius;
+    }
+
+    <span class="literal">public</span> Circle2D() {
+        <span class="literal">this</span>(0, 0, 1);
+    }
+
+    <span class="literal">public</span> Circle2D(<span class="literal">double</span> x, <span class="literal">double</span> y, <span class="literal">double</span> radius) {
+        <span class="literal">this</span>.x = x;
+        <span class="literal">this</span>.y = y;
+        <span class="literal">this</span>.radius = radius;
+    }
+
+    <span class="literal">public</span> <span class="literal">double</span> getArea(<span class="literal">double</span> radius) {
+        <span class="literal">return</span> radius * radius * Math.PI;
+    }
+
+    <span class="literal">public</span> <span class="literal">double</span> getPerimeter(<span class="literal">double</span> radius) {
+        <span class="literal">return</span> 2 * Math.PI * radius;
+    }
+
+    <span class="literal">public</span> <span class="literal">boolean</span> equals(Object o) {
+        <span class="literal">if</span> (<span class="literal">this</span> == o) {
+            <span class="literal">return</span> <span class="literal">true</span>;
+        }
+        <span class="literal">if</span> (o == <span class="literal">null</span> || getClass() != o.getClass()) {
+            <span class="literal">return</span> <span class="literal">false</span>;
+        }
+        Circle2D circle2D = (Circle2D) o;
+        <span class="literal">return</span> Double.compare(circle2D.x, x) == 0
+                &amp;&amp; Double.compare(circle2D.y, y) == 0
+                &amp;&amp; Double.compare(circle2D.radius, radius) == 0;
+    }
+
+    <span class="literal">private</span> <span class="literal">static</span> <span class="literal">double</span> distance(<span class="literal">double</span> x1, <span class="literal">double</span> y1,
+            <span class="literal">double</span> x2, <span class="literal">double</span> y2) {
+        <span class="literal">return</span> Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
+    <span class="literal">public</span> <span class="literal">boolean</span> contains(<span class="literal">double</span> x, <span class="literal">double</span> y) {
+        <span class="literal">double</span> d = distance(x, y, <span class="literal">this</span>.x, <span class="literal">this</span>.y);
+        <span class="literal">return</span> d &lt;= radius;
+    }
+
+    <span class="literal">public</span> <span class="literal">boolean</span> contains(Circle2D circle) {
+        <span class="literal">double</span> d = distance(circle.x, circle.y, <span class="literal">this</span>.x, <span class="literal">this</span>.y);<span class="comment">//gets the distance between the two centers</span>
+        <span class="literal">return</span> d + circle.radius &lt;= <span class="literal">this</span>.radius;<span class="comment">//if the distance + the radius are inferior or equal to the current radius then the method returns true</span>
+    }
+
+    <span class="comment">// Two circles overlap if the distance between the two centers</span>
+<span class="comment">// are less than or equal to this.radius + circle.radius</span>
+<span class="comment">// MyPoint is defined in Exercise9_4</span>
+    <span class="literal">public</span> <span class="literal">boolean</span> overlaps(Circle2D circle) {
+        
+        <span class="literal">double</span> d = distance(circle.x, circle.y, <span class="literal">this</span>.x, <span class="literal">this</span>.y);<span class="comment">//gets the distance between 2 centers</span>
+        <span class="literal">return</span> d &lt; (circle.radius + <span class="literal">this</span>.radius);<span class="comment">//returns true if the distance between the two centers is inferior to the radius of the first circle + the second circle</span>
+    }
+
+   <span class="literal">public</span> <span class="literal">static</span> Circle2D[] sortCirclesByPerimeter(Circle2D[] circles) {
+    <span class="literal">for</span> (<span class="literal">int</span> i = 0; i &lt; circles.length - 1; i++) {
+        <span class="literal">for</span> (<span class="literal">int</span> j = 0; j &lt; circles.length - i - 1; j++) {
+            
+            <span class="literal">if</span> (circles[j].getPerimeter(j) &gt; circles[j + 1].getPerimeter(i)) {
+                Circle2D temp = circles[j];
+                circles[j] = circles[j + 1];
+                circles[j + 1] = temp;
+            }
+        }
+    }
+    <span class="literal">return</span> circles;
+}
+   
+ 
+
+     <span class="literal">public</span> <span class="literal">int</span> getCounts(Circle2D[] circle) {
+         <span class="literal">int</span> count = 0;
+         <span class="literal">double</span> d = distance(x, y, <span class="literal">this</span>.x, <span class="literal">this</span>.y);<span class="comment">//gets the distance between 2 centers</span>
+        <span class="literal">if</span>( d &lt; (radius + <span class="literal">this</span>.radius)){
+            count++;
+        } 
+        <span class="literal">else</span>{
+            <span class="literal">return</span> count;
+        }
+        <span class="literal">return</span> count;
+    }
+ <span class="literal">public</span> <span class="literal">static</span> Circle2D[] sortCirclesByNumberOfTimesOverlapping(Circle2D[] ar) {
+     <span class="literal">for</span>(<span class="literal">int</span> i = 0; i&lt;ar.length; ++i){
+         <span class="literal">if</span>(ar[i].getCounts(ar)&gt;ar[i++].getCounts(ar)){
+             Circle2D currentMin = ar[i];
+             ar[i]=ar[i++];
+             ar[i++]=currentMin;
+             
+         }
+     }
+  
+        <span class="literal">return</span> ar;
+}
+
+    @Override
+    <span class="literal">public</span> String toString() {
+        <span class="literal">return</span> <span class="string">&quot;</span><span class="string">Circle2D{</span><span class="string">&quot;</span> + <span class="string">&quot;</span><span class="string">x=</span><span class="string">&quot;</span> + x + <span class="string">&quot;</span><span class="string">, y=</span><span class="string">&quot;</span> + y + <span class="string">&quot;</span><span class="string">, radius=</span><span class="string">&quot;</span> + radius + <span class="string">&#39;</span><span class="string">}</span><span class="string">&#39;</span>;
+    }
+    
+     <span class="literal">public</span> <span class="literal">static</span> <span class="literal">void</span> print(Circle2D[] ar) {
+        <span class="literal">for</span> (Circle2D c : ar) {
+            System.out.println(c);
+        }
+    }
+
+    <span class="literal">public</span> <span class="literal">static</span> <span class="literal">void</span> main(String[] args) {
+        Circle2D c1 = <span class="literal">new</span> Circle2D(2, 2, 5.5);
+
+        System.out.println(<span class="string">&quot;</span><span class="string">Area is </span><span class="string">&quot;</span> + c1.getArea(c1.getRadius()));
+        System.out.println(<span class="string">&quot;</span><span class="string">Perimeter is </span><span class="string">&quot;</span> + c1.getPerimeter(c1.getRadius()));
+        System.out.println(c1.contains(3, 3));
+        System.out.println(c1.contains(<span class="literal">new</span> Circle2D(4, 5, 10.5)));
+        System.out.println(c1.overlaps(<span class="literal">new</span> Circle2D(3, 5, 2.3)));
+          System.out.println(<span class="string">&quot;</span><span class="ST1">\n</span><span class="string">Circles sorted by the number of times they overlap:</span><span class="string">&quot;</span>);
+          
+               Circle2D c2 = <span class="literal">new</span> Circle2D(0, 0, 2);
+        Circle2D c3 = <span class="literal">new</span> Circle2D(4, 4, 3);
+        Circle2D c4 = <span class="literal">new</span> Circle2D(1, 1, 1);
+        Circle2D c5 = <span class="literal">new</span> Circle2D(0, 0, 3);
+        Circle2D c6 = <span class="literal">new</span> Circle2D(6, 6, 2);
+        Circle2D c7 = <span class="literal">new</span> Circle2D(8, 8, 1);
+
+        Circle2D[] circles = {c1, c2, c3, c4, c5, c6, c7};
+        
+        System.out.println(<span class="string">&quot;</span><span class="ST1">\n</span><span class="string">Circles sorted by overlap numbers:</span><span class="string">&quot;</span>);
+        print(sortCirclesByNumberOfTimesOverlapping(circles));
+        System.out.println(<span class="string">&quot;</span><span class="ST1">\n</span><span class="string">Circles sorted by perimeter:</span><span class="string">&quot;</span>);
+        print(sortCirclesByPerimeter(circles));
+    }
+}
+
+</pre></body>
+</html>
